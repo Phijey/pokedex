@@ -1,0 +1,147 @@
+.specimen {
+  --type-color: #888;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  height: 100%;
+  padding: 0.9rem 1rem 0.8rem;
+  border: 1px solid var(--card-edge);
+  border-radius: 3px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  transform: rotate(var(--rest, 0deg));
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background 0.4s ease;
+}
+
+/* etiqueta colorida do tipo, como um marcador de arquivo */
+.specimen::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 18px;
+  width: 24px;
+  height: 34px;
+  background: var(--type-color);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+  opacity: 0.9;
+}
+
+.specimen:hover,
+.specimen:focus-visible {
+  transform: translateY(-6px) rotate(0deg);
+  box-shadow: var(--shadow-lift);
+}
+
+.specimen--comparing {
+  outline: 2px dashed var(--type-color);
+  outline-offset: 4px;
+}
+
+.specimen__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+  padding-right: 2.2rem;
+}
+
+.specimen__number {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.specimen__actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.specimen__photo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--card-edge);
+  background:
+    radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--type-color) 24%, transparent), transparent 70%),
+    var(--paper);
+}
+
+.specimen__tape {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 70px;
+  height: 18px;
+  background: var(--tape);
+  transform: translateX(-50%) rotate(-3deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.specimen__photo img {
+  width: 78%;
+  height: 92%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 6px rgba(40, 30, 10, 0.25));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.specimen:hover .specimen__photo img {
+  transform: scale(1.08) translateY(-3px);
+}
+
+.specimen__name {
+  margin: 0.1rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.specimen__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.specimen__stats {
+  display: grid;
+  gap: 0.28rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.specimen__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.specimen__footer strong {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+@media (max-width: 520px) {
+  .specimen {
+    padding: 0.7rem 0.7rem 0.6rem;
+  }
+
+  .specimen__name {
+    font-size: 1.1rem;
+  }
+
+  .specimen__top {
+    padding-right: 1.9rem;
+  }
+}

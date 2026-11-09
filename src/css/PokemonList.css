@@ -1,0 +1,36 @@
+.specimen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.75rem 1.5rem;
+}
+
+.specimen-grid__item {
+  animation: drop-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 35ms);
+}
+
+.specimen-grid__item:nth-child(3n + 1) {
+  --rest: -0.6deg;
+}
+
+.specimen-grid__item:nth-child(3n + 2) {
+  --rest: 0.4deg;
+}
+
+.specimen-grid__item:nth-child(3n) {
+  --rest: -0.2deg;
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(1.5deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .specimen-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem 0.8rem;
+  }
+}
