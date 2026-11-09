@@ -10,6 +10,7 @@ import Trainers from './components/Trainers'
 import CompareTray from './components/CompareTray'
 import CompareModal from './components/CompareModal'
 import ThemeToggle from './components/ThemeToggle'
+import PencilCursor from './components/PencilCursor'
 import { useFavorites } from './hooks/useFavorites'
 import { useTheme } from './hooks/useTheme'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
@@ -146,6 +147,8 @@ function App() {
           onToggleFavorite={toggleFavorite}
         />
       )}
+
+      <PencilCursor />
     </div>
   )
 }
