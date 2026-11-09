@@ -21,7 +21,7 @@
   border-radius: 6px;
   background:
     linear-gradient(90deg, transparent calc(50% - 22px), rgba(0, 0, 0, 0.1) 50%, transparent calc(50% + 22px)),
-    linear-gradient(var(--paper-line) 1px, transparent 1px) 0 14px / 100% 30px,
+    var(--grain) 0 0 / 220px 220px,
     var(--card);
   box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--card-edge);
   transform-origin: left center;
@@ -291,7 +291,7 @@
   .journal {
     grid-template-columns: 1fr;
     background:
-      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 14px / 100% 30px,
+      var(--grain) 0 0 / 220px 220px,
       var(--card);
   }
 

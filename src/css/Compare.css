@@ -86,7 +86,7 @@
   padding: 2rem 2rem 1.5rem;
   border-radius: 6px;
   background:
-    linear-gradient(var(--paper-line) 1px, transparent 1px) 0 14px / 100% 30px,
+    var(--grain) 0 0 / 220px 220px,
     var(--card);
   box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--card-edge);
   animation: page-open 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
