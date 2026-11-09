@@ -2,7 +2,17 @@ import PokemonCard from './PokemonCard'
 import EmptyState from './EmptyState'
 import '../css/PokemonList.css'
 
-function PokemonList({ pokemons, onSelect, favorites, onToggleFavorite, compareIds, onToggleCompare, query, onReset }) {
+function PokemonList({
+  pokemons,
+  onSelect,
+  favorites,
+  onToggleFavorite,
+  compareIds,
+  onToggleCompare,
+  notes,
+  query,
+  onReset,
+}) {
   if (pokemons.length === 0) {
     return <EmptyState query={query} onReset={onReset} />
   }
@@ -18,6 +28,7 @@ function PokemonList({ pokemons, onSelect, favorites, onToggleFavorite, compareI
             onToggleFavorite={onToggleFavorite}
             isComparing={compareIds?.includes(pokemon.id)}
             onToggleCompare={onToggleCompare}
+            note={notes?.[pokemon.id]}
           />
         </div>
       ))}

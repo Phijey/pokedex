@@ -2,13 +2,24 @@ import { useEffect } from 'react'
 import TypeStamp from './TypeStamp'
 import StatBar from './StatBar'
 import StatRadar from './StatRadar'
+import NotePad from './NotePad'
 import { usePokemonExtra } from '../hooks/usePokemonExtra'
 import { STATS, formatId, totalStats } from '../utils/stats'
 import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 import '../css/PokemonDetails.css'
 
-function PokemonDetails({ pokemon, owners, onClose, onPrev, onNext, isFavorite, onToggleFavorite }) {
+function PokemonDetails({
+  pokemon,
+  owners,
+  onClose,
+  onPrev,
+  onNext,
+  isFavorite,
+  onToggleFavorite,
+  note,
+  onSaveNote,
+}) {
   const color = getPrimaryColor(pokemon)
   const extra = usePokemonExtra(pokemon.id)
 
@@ -120,6 +131,15 @@ function PokemonDetails({ pokemon, owners, onClose, onPrev, onNext, isFavorite, 
           <p className="journal__total">
             total de atributos <strong>{totalStats(pokemon)}</strong>
           </p>
+
+          {onSaveNote && (
+            <NotePad
+              key={pokemon.id}
+              pokemonName={pokemon.name}
+              value={note ?? ''}
+              onSave={(text) => onSaveNote(pokemon.id, text)}
+            />
+          )}
 
           <nav className="journal__nav">
             <button type="button" className="btn" onClick={onPrev} disabled={!onPrev}>

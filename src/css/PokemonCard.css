@@ -145,3 +145,27 @@
     padding-right: 1.9rem;
   }
 }
+
+/* marcador de anotação pessoal na ficha */
+.specimen__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 60%;
+  padding: 0.05rem 0.45rem;
+  background: color-mix(in srgb, #ffe98a 55%, var(--card));
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: rotate(-2deg);
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme='dark'] .specimen__note {
+  background: #2b3956;
+}

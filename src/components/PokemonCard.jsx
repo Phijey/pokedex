@@ -5,7 +5,7 @@ import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 import '../css/PokemonCard.css'
 
-function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isComparing, onToggleCompare }) {
+function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isComparing, onToggleCompare, note }) {
   const color = getPrimaryColor(pokemon)
 
   function handleFavorite(event) {
@@ -88,7 +88,13 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isCompar
       </div>
 
       <footer className="specimen__footer">
-        <span>total</span>
+        {note ? (
+          <span className="specimen__note" title={note}>
+            ✎ {note}
+          </span>
+        ) : (
+          <span>total</span>
+        )}
         <strong>{totalStats(pokemon)}</strong>
       </footer>
     </article>

@@ -13,6 +13,7 @@ import ThemeToggle from './components/ThemeToggle'
 import PencilCursor from './components/PencilCursor'
 import { useFavorites } from './hooks/useFavorites'
 import { useTheme } from './hooks/useTheme'
+import { useNotes } from './hooks/useNotes'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
 import './css/App.css'
 
@@ -40,6 +41,7 @@ function App() {
   const [comparing, setComparing] = useState(false)
   const { favorites, toggleFavorite } = useFavorites()
   const { theme, toggleTheme } = useTheme()
+  const { notes, saveNote } = useNotes()
 
   // Estado derivado: lista filtrada e ordenada a partir dos filtros atuais
   const visible = useMemo(() => {
@@ -119,6 +121,7 @@ function App() {
             onToggleFavorite={toggleFavorite}
             compareIds={compareIds}
             onToggleCompare={toggleCompare}
+            notes={notes}
             query={query}
             onReset={resetFilters}
           />
@@ -145,6 +148,8 @@ function App() {
           onNext={next ? () => setSelectedId(next.id) : null}
           isFavorite={favorites.includes(selected.id)}
           onToggleFavorite={toggleFavorite}
+          note={notes[selected.id]}
+          onSaveNote={saveNote}
         />
       )}
 

@@ -307,3 +307,71 @@
     border-top: 2px dashed var(--rule);
   }
 }
+
+/* ---------- minhas anotações ---------- */
+.notepad {
+  position: relative;
+  padding: 0.7rem 0.9rem 0.4rem;
+  border: 1px solid color-mix(in srgb, #e6c84f 60%, var(--card-edge));
+  background: color-mix(in srgb, #ffe98a 38%, var(--card));
+  box-shadow: 0 8px 14px -10px rgba(0, 0, 0, 0.4);
+  transform: rotate(0.6deg);
+}
+
+:root[data-theme='dark'] .notepad {
+  border-color: #3d4a63;
+  background: #222d44;
+}
+
+.notepad__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.notepad__header label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.notepad__status {
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: var(--ink-faint);
+}
+
+.notepad__status--saved {
+  color: #4a8a3c;
+  animation: fade-in 0.3s ease;
+}
+
+.notepad__text {
+  display: block;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 0 0.1rem;
+  border: none;
+  background: linear-gradient(transparent 27px, color-mix(in srgb, var(--ink) 18%, transparent) 27px, transparent 28px) 0 0 / 100% 28px;
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  line-height: 28px;
+  color: var(--accent);
+  resize: none;
+  outline: none;
+}
+
+.notepad__text::placeholder {
+  color: var(--ink-faint);
+}
+
+.notepad__count {
+  display: block;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--ink-faint);
+}
