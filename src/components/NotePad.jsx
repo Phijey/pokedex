@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 
 const MAX_LENGTH = 280
 
 // Área de anotações pessoais: o texto é salvo automaticamente após uma pequena pausa na digitação
 function NotePad({ pokemonName, value, onSave }) {
+  const id = useId()
   const [draft, setDraft] = useState(value)
   const [status, setStatus] = useState('idle')
 
@@ -20,14 +21,14 @@ function NotePad({ pokemonName, value, onSave }) {
   return (
     <div className="notepad">
       <div className="notepad__header">
-        <label htmlFor="notepad-text">Minhas anotações</label>
+        <label htmlFor={id}>Minhas anotações</label>
         <span className={`notepad__status notepad__status--${status}`}>
           {status === 'typing' && 'escrevendo...'}
           {status === 'saved' && 'salvo ✓'}
         </span>
       </div>
       <textarea
-        id="notepad-text"
+        id={id}
         className="notepad__text"
         value={draft}
         maxLength={MAX_LENGTH}

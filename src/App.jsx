@@ -29,6 +29,11 @@ const AVAILABLE_TYPES = data.types.filter((type) =>
   data.pokemon.some((p) => (type.name === 'Typeless' ? p.types.length === 0 : p.types.some((t) => t.id === type.id))),
 )
 
+// Treinadores que possuem determinado Pokémon
+function getOwners(pokemonId) {
+  return data.trainers.filter((t) => t.pokemonIds.includes(pokemonId))
+}
+
 function App() {
   const [view, setView] = useState('pokedex')
   const [query, setQuery] = useState('')
@@ -52,7 +57,7 @@ function App() {
   }, [query, selectedType, onlyFavorites, favorites, sortBy, direction])
 
   const selected = POKEMON_BY_ID.get(selectedId)
-  const owners = selected ? data.trainers.filter((t) => t.pokemonIds.includes(selected.id)) : []
+  const owners = selected ? getOwners(selected.id) : []
   const comparePokemons = compareIds.map((id) => POKEMON_BY_ID.get(id))
 
   // Navegação anterior/próximo dentro da lista atualmente exibida
@@ -148,7 +153,8 @@ function App() {
           onNext={next ? () => setSelectedId(next.id) : null}
           isFavorite={favorites.includes(selected.id)}
           onToggleFavorite={toggleFavorite}
-          note={notes[selected.id]}
+          getOwners={getOwners}
+          notes={notes}
           onSaveNote={saveNote}
         />
       )}

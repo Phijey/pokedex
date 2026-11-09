@@ -451,3 +451,128 @@
     opacity: 1;
   }
 }
+
+/* ---------- folha virando ---------- */
+.journal {
+  perspective: 2600px;
+}
+
+.leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 50%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  animation: leaf-next 0.85s cubic-bezier(0.45, 0.05, 0.3, 1) forwards;
+}
+
+.leaf--next {
+  left: 50%;
+  transform-origin: left center;
+}
+
+.leaf--prev {
+  left: 0;
+  transform-origin: right center;
+  animation-name: leaf-prev;
+}
+
+.leaf__face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--grain) 0 0 / 220px 220px, var(--card);
+  backface-visibility: hidden;
+}
+
+.leaf__face > .journal__page {
+  height: 100%;
+}
+
+.leaf--next .leaf__face--front {
+  border-radius: 0 6px 6px 0;
+}
+
+.leaf--next .leaf__face--back {
+  border-radius: 6px 0 0 6px;
+  transform: rotateY(180deg);
+}
+
+.leaf--prev .leaf__face--front {
+  border-radius: 6px 0 0 6px;
+}
+
+.leaf--prev .leaf__face--back {
+  border-radius: 0 6px 6px 0;
+  transform: rotateY(180deg);
+}
+
+/* sombra que escurece a folha conforme ela se levanta do caderno */
+.leaf__face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: leaf-shade 0.85s ease-in-out forwards;
+}
+
+.leaf--next .leaf__face--front::after,
+.leaf--prev .leaf__face--back::after {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.08) 45%, rgba(255, 255, 255, 0.08));
+}
+
+.leaf--next .leaf__face--back::after,
+.leaf--prev .leaf__face--front::after {
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.08) 45%, rgba(255, 255, 255, 0.08));
+}
+
+/* o conteúdo da folha é uma "foto" da página: sem animações internas */
+.leaf * {
+  animation: none !important;
+}
+
+.leaf .scribble__mark path {
+  stroke-dashoffset: 0;
+}
+
+.leaf .scribble__label {
+  opacity: 1;
+}
+
+@keyframes leaf-next {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes leaf-prev {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes leaf-shade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 820px) {
+  .leaf {
+    display: none;
+  }
+}
