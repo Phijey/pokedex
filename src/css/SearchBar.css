@@ -1,0 +1,106 @@
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.search__icon {
+  position: absolute;
+  left: 0.2rem;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  padding: 0.6rem 2.2rem 0.5rem 2.2rem;
+  border: none;
+  border-bottom: 2px solid var(--ink);
+  background: transparent;
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.search input::placeholder {
+  color: var(--ink-faint);
+}
+
+.search input:focus {
+  border-bottom-color: var(--margin);
+  background: linear-gradient(transparent 60%, var(--highlight) 60%);
+}
+
+.search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search__clear {
+  position: absolute;
+  right: 0.2rem;
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.search__clear:hover {
+  color: var(--margin);
+}
+
+/* ---------- filtro por tipo ---------- */
+.type-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.5rem;
+  padding: 0.9rem 0 0.4rem;
+}
+
+.type-filter__label {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--ink-soft);
+  margin-right: 0.2rem;
+}
+
+.type-filter__all {
+  padding: 0.28rem 0.7rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.type-filter__all--active {
+  background: var(--ink);
+  color: var(--card);
+}
+
+@media (max-width: 640px) {
+  .type-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0.9rem 0.3rem 0.8rem;
+    scrollbar-width: thin;
+  }
+
+  .type-filter > * {
+    flex: 0 0 auto;
+  }
+}
