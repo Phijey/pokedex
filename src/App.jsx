@@ -5,10 +5,16 @@ import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
+import Trainers from './components/Trainers'
 import { matchesQuery, matchesType } from './utils/filters'
 import './css/App.css'
 
-const TABS = [{ id: 'pokedex', label: 'Espécimes', icon: '❦' }]
+const TABS = [
+  { id: 'pokedex', label: 'Espécimes', icon: '❦' },
+  { id: 'trainers', label: 'Treinadores', icon: '✦' },
+]
+
+const POKEMON_BY_ID = new Map(data.pokemon.map((p) => [p.id, p]))
 
 // Apenas os tipos que aparecem em pelo menos um Pokémon
 const AVAILABLE_TYPES = data.types.filter((type) =>
@@ -26,7 +32,7 @@ function App() {
     [query, selectedType],
   )
 
-  const selected = data.pokemon.find((p) => p.id === selectedId)
+  const selected = POKEMON_BY_ID.get(selectedId)
   const owners = selected ? data.trainers.filter((t) => t.pokemonIds.includes(selected.id)) : []
 
   // Navegação anterior/próximo dentro da lista atualmente exibida
@@ -44,17 +50,23 @@ function App() {
     <div className="app">
       <Header tabs={TABS} view={view} onViewChange={setView} total={data.pokemon.length} />
 
-      <main>
-        <div className="toolbar">
-          <SearchBar value={query} onChange={setQuery} />
-        </div>
-        <TypeFilter types={AVAILABLE_TYPES} selected={selectedType} onSelect={setSelectedType} />
+      {view === 'trainers' ? (
+        <main>
+          <Trainers trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
+        </main>
+      ) : (
+        <main>
+          <div className="toolbar">
+            <SearchBar value={query} onChange={setQuery} />
+          </div>
+          <TypeFilter types={AVAILABLE_TYPES} selected={selectedType} onSelect={setSelectedType} />
 
-        <p className="result-count">
-          Exibindo <strong>{filtered.length}</strong> de {data.pokemon.length} espécimes
-        </p>
-        <PokemonList pokemons={filtered} onSelect={setSelectedId} query={query} onReset={resetFilters} />
-      </main>
+          <p className="result-count">
+            Exibindo <strong>{filtered.length}</strong> de {data.pokemon.length} espécimes
+          </p>
+          <PokemonList pokemons={filtered} onSelect={setSelectedId} query={query} onReset={resetFilters} />
+        </main>
+      )}
 
       {selected && (
         <PokemonDetails

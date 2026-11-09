@@ -1,0 +1,224 @@
+.trainers__intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.75rem 0 1.5rem;
+}
+
+.trainers__intro p {
+  max-width: 560px;
+  margin: 0;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.trainers__intro p span {
+  font-family: var(--font-hand);
+  font-style: normal;
+  font-size: 1.3rem;
+  color: var(--margin);
+}
+
+.trainers__order {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.35rem 0.8rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chip--on {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.trainers__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ficha de treinador: cartão com furos de fichário */
+.trainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.3rem 1.3rem 1rem 2.6rem;
+  border: 1px solid var(--card-edge);
+  border-radius: 4px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  animation: drop-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.trainer:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+.trainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.8rem;
+  width: 12px;
+  background: radial-gradient(circle, var(--paper) 4px, var(--card-edge) 5px, transparent 5.5px) center top / 12px 34px repeat-y;
+}
+
+.trainer__header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.trainer__avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 800;
+  box-shadow: inset 0 0 0 3px var(--card), inset 0 0 0 4px var(--ink);
+  transform: rotate(-6deg);
+}
+
+.trainer__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.trainer__name {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.trainer__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+.trainer__badge-row {
+  display: flex;
+  gap: 2px;
+}
+
+.badge {
+  width: 20px;
+  height: 20px;
+  fill: #e0a526;
+  stroke: #9b6f12;
+  stroke-width: 1;
+  animation: badge-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  animation-delay: var(--d);
+}
+
+.trainer__none {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.trainer__team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.8rem 0 0;
+  border-top: 1px dashed var(--rule);
+  list-style: none;
+}
+
+.trainer__pokemon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.7rem 0.15rem 0.15rem;
+  border: 1.5px solid color-mix(in srgb, var(--type-color) 60%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--type-color) 12%, var(--card));
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.trainer__pokemon:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  background: color-mix(in srgb, var(--type-color) 24%, var(--card));
+}
+
+.trainer__pokemon img {
+  width: 38px;
+  height: 38px;
+  margin: -6px 0;
+  image-rendering: pixelated;
+}
+
+.trainer__pokemon em {
+  margin-left: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--type-color);
+}
+
+.trainer__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.trainer__footer strong {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+@keyframes badge-pop {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-90deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .trainers__grid {
+    grid-template-columns: 1fr;
+  }
+}
