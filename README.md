@@ -30,9 +30,18 @@ Em vez da clássica Pokédex vermelha, a interface foi pensada como o **caderno 
 - 🌙 **Tema claro/escuro** salvo no navegador.
 - 🌐 **API externa (PokéAPI)** para complementar os detalhes com altura, peso, categoria e descrição.
 
+### Interações do caderno de campo
+- 📖 **Página virando de verdade**: ao navegar com “anterior/próximo” (ou pelas setas do teclado), a folha gira em 3D pela lombada, mostrando na frente a página atual e no verso a seguinte.
+- 🗺️ **Mapa de Kanto desenhado à mão**: contorno com traço tremido, rotas que se desenham sozinhas, montanhas, floresta e rosa dos ventos. Cada treinador é um alfinete com foto na sua cidade; clicar nele abre a ficha ao lado.
+- ✍️ **Minhas anotações**: um bloco de notas em cada Pokémon, salvo automaticamente no navegador. A nota também aparece como etiqueta na ficha da listagem.
+- 🖍️ **Marcações à mão animadas**: no detalhe, o maior atributo é circulado (“ponto forte!”) e o menor é sublinhado (“ponto fraco”), como se fosse feito a caneta.
+- ✏️ **Cursor de lápis**: o cursor vira um lápis e cada clique deixa um rabisco rápido no papel.
+
 <div align="center">
   <img src="docs/screenshots/detalhes.png" alt="Detalhes do Pokémon" width="49%" />
   <img src="docs/screenshots/comparacao.png" alt="Comparação" width="49%" />
+  <img src="docs/screenshots/pagina-virando.png" alt="Página virando" width="49%" />
+  <img src="docs/screenshots/mapa.png" alt="Mapa de Kanto" width="49%" />
   <img src="docs/screenshots/treinadores.png" alt="Treinadores" width="49%" />
   <img src="docs/screenshots/mobile.png" alt="Versão mobile" width="20%" />
 </div>
@@ -102,7 +111,12 @@ pokedex/
 │   │   ├── SortSelect.jsx     # ordenação
 │   │   ├── PokemonList.jsx    # grade de fichas (map)
 │   │   ├── PokemonCard.jsx    # ficha de espécime
-│   │   ├── PokemonDetails.jsx # modal de detalhes
+│   │   ├── PokemonDetails.jsx # modal de detalhes e folha virando
+│   │   ├── JournalPages.jsx   # páginas esquerda e direita do caderno
+│   │   ├── NotePad.jsx        # minhas anotações
+│   │   ├── Scribble.jsx       # marcações à mão animadas
+│   │   ├── KantoMap.jsx       # mapa de Kanto com os treinadores
+│   │   ├── PencilCursor.jsx   # rabiscos do cursor de lápis
 │   │   ├── StatBar.jsx        # barra de atributo (régua)
 │   │   ├── StatRadar.jsx      # gráfico radar em SVG
 │   │   ├── TypeStamp.jsx      # carimbo de tipo
@@ -114,16 +128,19 @@ pokedex/
 │   │   └── EmptyState.jsx     # nenhum resultado
 │   ├── css/                   # um arquivo de estilo por área da interface
 │   ├── data/
-│   │   └── pokedex-data.json
+│   │   ├── pokedex-data.json
+│   │   └── kantoMap.js        # cidades, rotas e locais dos treinadores
 │   ├── hooks/
 │   │   ├── useLocalStorage.js # useState persistido
 │   │   ├── useFavorites.js
+│   │   ├── useNotes.js        # anotações pessoais
 │   │   ├── useTheme.js
 │   │   └── usePokemonExtra.js # busca na PokéAPI com useEffect
 │   ├── utils/
 │   │   ├── filters.js         # pesquisa, filtro e ordenação
 │   │   ├── stats.js           # atributos, total e formatação do número
 │   │   ├── trainerImage.js    # fotos dos treinadores (Pokémon Showdown)
+│   │   ├── trainers.js        # agrupamento da equipe de cada treinador
 │   │   ├── typeColors.js      # cores e nomes em português dos tipos
 │   │   └── pokemonImage.js    # URLs das imagens e fallback
 │   ├── App.jsx                # estado principal e composição da tela
