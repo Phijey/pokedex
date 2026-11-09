@@ -21,6 +21,92 @@
   color-scheme: light;
 }
 
+/* tema escuro: "laboratório noturno", papel azul de planta com traços de giz */
+:root[data-theme='dark'] {
+  --paper: #121926;
+  --paper-line: rgba(127, 211, 224, 0.07);
+  --card: #1a2335;
+  --card-edge: #2a3750;
+  --ink: #ece6d6;
+  --ink-soft: #a9b3c6;
+  --ink-faint: #6e7a92;
+  --rule: #34445f;
+  --margin: #ff8a65;
+  --accent: #7fd3e0;
+  --tape: rgba(127, 211, 224, 0.22);
+  --highlight: rgba(255, 138, 101, 0.3);
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 14px 26px -14px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 2px 0 rgba(0, 0, 0, 0.3), 0 28px 44px -16px rgba(0, 0, 0, 0.9);
+
+  color-scheme: dark;
+}
+
+:root[data-theme='dark'] body {
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(127, 211, 224, 0.08), transparent 45%),
+    radial-gradient(circle at 90% 100%, rgba(255, 138, 101, 0.06), transparent 50%),
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+}
+
+:root[data-theme='dark'] .stamp {
+  filter: brightness(1.35) saturate(1.1);
+}
+
+:root[data-theme='dark'] .stamp--active {
+  filter: none;
+}
+
+:root[data-theme='dark'] .journal__photo {
+  border-color: #dfe6f0;
+}
+
+/* ---------- alternador de tema ---------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.theme-toggle__track {
+  position: relative;
+  width: 58px;
+  height: 30px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.theme-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--card);
+  font-size: 0.85rem;
+  transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.theme-toggle--dark .theme-toggle__knob {
+  transform: translateX(28px) rotate(360deg);
+}
+
+.theme-toggle__text {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
 *,
 *::before,
 *::after {

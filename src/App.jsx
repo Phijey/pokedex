@@ -9,7 +9,9 @@ import PokemonDetails from './components/PokemonDetails'
 import Trainers from './components/Trainers'
 import CompareTray from './components/CompareTray'
 import CompareModal from './components/CompareModal'
+import ThemeToggle from './components/ThemeToggle'
 import { useFavorites } from './hooks/useFavorites'
+import { useTheme } from './hooks/useTheme'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
 import './css/App.css'
 
@@ -36,6 +38,7 @@ function App() {
   const [compareIds, setCompareIds] = useState([])
   const [comparing, setComparing] = useState(false)
   const { favorites, toggleFavorite } = useFavorites()
+  const { theme, toggleTheme } = useTheme()
 
   // Estado derivado: lista filtrada e ordenada a partir dos filtros atuais
   const visible = useMemo(() => {
@@ -76,7 +79,9 @@ function App() {
 
   return (
     <div className="app">
-      <Header tabs={TABS} view={view} onViewChange={setView} total={data.pokemon.length} />
+      <Header tabs={TABS} view={view} onViewChange={setView} total={data.pokemon.length}>
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </Header>
 
       {view === 'trainers' ? (
         <main>

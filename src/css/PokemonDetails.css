@@ -299,6 +299,10 @@
     padding: 1.5rem 1.25rem;
   }
 
+  .journal__heading {
+    padding-right: 2.2rem;
+  }
+
   .journal__page--right {
     border-top: 2px dashed var(--rule);
   }

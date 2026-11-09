@@ -11,6 +11,16 @@
       rel="stylesheet"
     />
     <title>Caderno de Campo · Pokédex</title>
+    <script>
+      // aplica o tema salvo antes do React carregar, evitando o "piscar" de cores
+      try {
+        const saved = JSON.parse(localStorage.getItem('pokedex:tema'))
+        const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light')
+      } catch {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
