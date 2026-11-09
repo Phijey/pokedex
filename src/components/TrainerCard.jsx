@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { formatId, totalStats } from '../utils/stats'
 import { getPrimaryColor } from '../utils/typeColors'
 import { getSprite, handleImageError } from '../utils/pokemonImage'
+import { getTrainerImage } from '../utils/trainerImage'
 
 function Badge({ index }) {
   return (
@@ -11,6 +13,9 @@ function Badge({ index }) {
 }
 
 function TrainerCard({ trainer, team, onSelectPokemon }) {
+  const photo = getTrainerImage(trainer.name)
+  const [photoFailed, setPhotoFailed] = useState(false)
+
   const initials = trainer.name
     .split(/[\s.]+/)
     .filter(Boolean)
@@ -25,7 +30,14 @@ function TrainerCard({ trainer, team, onSelectPokemon }) {
   return (
     <article className="trainer">
       <header className="trainer__header">
-        <span className="trainer__avatar">{initials}</span>
+        {photo && !photoFailed ? (
+          <figure className="trainer__photo">
+            <span className="trainer__photo-tape" />
+            <img src={photo} alt={`Foto de ${trainer.name}`} loading="lazy" onError={() => setPhotoFailed(true)} />
+          </figure>
+        ) : (
+          <span className="trainer__avatar">{initials}</span>
+        )}
         <div>
           <span className="trainer__label">ficha nº {formatId(trainer.id)}</span>
           <h3 className="trainer__name">{trainer.name}</h3>

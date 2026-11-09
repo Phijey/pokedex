@@ -18,7 +18,7 @@ Em vez da clássica Pokédex vermelha, a interface foi pensada como o **caderno 
 - 🔎 **Pesquisa em tempo real** por nome (`bulba`) ou número (`25`, `#025`, `nº 25`).
 - 🧬 **Filtro por tipo** gerado a partir dos tipos presentes nos dados (inclui “Sem tipo”, usado pelo Mew).
 - 📄 **Detalhes em modal** (caderno aberto) com gráfico radar dos atributos, barras, total, treinadores que possuem o Pokémon e navegação anterior/próximo (também pelas setas do teclado; `Esc` fecha).
-- 🧑‍🚀 **Treinadores**: fichas com nome, insígnias, equipe (IDs repetidos são agrupados, ex.: Venonat ×3 do Koga) e média de atributos. Clicar em um Pokémon abre a ficha dele.
+- 🧑‍🚀 **Treinadores**: fichas com foto, nome, insígnias, equipe (IDs repetidos são agrupados, ex.: Venonat ×3 do Koga) e média de atributos. Clicar em um Pokémon abre a ficha dele.
 - ⚠️ **Estado vazio** quando nenhum Pokémon corresponde à pesquisa/filtros, com botão para limpar.
 - 📱 **Layout responsivo** para desktop, tablet e smartphone.
 
@@ -80,9 +80,10 @@ A Pokédex funciona completamente com esse arquivo. As fontes externas abaixo s�
 | --- | --- | --- |
 | Imagens oficiais | [PokeAPI/sprites](https://github.com/PokeAPI/sprites) — `sprites/pokemon/other/official-artwork/{id}.png` | Fotos dos cards e do modal |
 | Sprites pixelados | [PokeAPI/sprites](https://github.com/PokeAPI/sprites) — `sprites/pokemon/{id}.png` | Treinadores, bandeja de comparação e reserva caso a imagem oficial falhe |
+| Fotos dos treinadores | [Pokémon Showdown](https://play.pokemonshowdown.com/sprites/trainers/) — `sprites/trainers/{nome}.png` | Foto de cada treinador na seção Treinadores (o Gary usa o sprite `blue`, nome dele nos jogos) |
 | Dados complementares | [PokéAPI](https://pokeapi.co/) — `/api/v2/pokemon/{id}` e `/api/v2/pokemon-species/{id}` | Altura, peso, categoria e descrição no modal |
 
-Se não houver internet, as imagens são substituídas por uma ilustração de “?” e o modal informa que está exibindo apenas os dados locais.
+Se não houver internet, as imagens dos Pokémon são substituídas por uma ilustração de “?”, as dos treinadores pelas iniciais do nome, e o modal informa que está exibindo apenas os dados locais.
 
 ---
 
@@ -122,6 +123,7 @@ pokedex/
 │   ├── utils/
 │   │   ├── filters.js         # pesquisa, filtro e ordenação
 │   │   ├── stats.js           # atributos, total e formatação do número
+│   │   ├── trainerImage.js    # fotos dos treinadores (Pokémon Showdown)
 │   │   ├── typeColors.js      # cores e nomes em português dos tipos
 │   │   └── pokemonImage.js    # URLs das imagens e fallback
 │   ├── App.jsx                # estado principal e composição da tela

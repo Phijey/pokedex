@@ -102,6 +102,49 @@
   transform: rotate(-6deg);
 }
 
+/* foto do treinador como uma polaroid presa na ficha */
+.trainer__photo {
+  position: relative;
+  flex: 0 0 auto;
+  width: 86px;
+  height: 96px;
+  margin: 0;
+  padding: 5px 5px 14px;
+  background: #fff;
+  box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.4);
+  transform: rotate(-4deg);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.trainer:hover .trainer__photo {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.trainer__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  background: radial-gradient(circle at 50% 70%, var(--card-edge), var(--paper) 75%);
+  image-rendering: pixelated;
+}
+
+.trainer__photo-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  z-index: 1;
+  width: 44px;
+  height: 14px;
+  background: var(--tape);
+  transform: translateX(-50%) rotate(5deg);
+}
+
+:root[data-theme='dark'] .trainer__photo {
+  background: #dfe6f0;
+}
+
 .trainer__label {
   font-family: var(--font-mono);
   font-size: 0.7rem;
