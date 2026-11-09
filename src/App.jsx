@@ -7,6 +7,7 @@ import SortSelect from './components/SortSelect'
 import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import Trainers from './components/Trainers'
+import KantoMap from './components/KantoMap'
 import CompareTray from './components/CompareTray'
 import CompareModal from './components/CompareModal'
 import ThemeToggle from './components/ThemeToggle'
@@ -20,6 +21,7 @@ import './css/App.css'
 const TABS = [
   { id: 'pokedex', label: 'Espécimes', icon: '❦' },
   { id: 'trainers', label: 'Treinadores', icon: '✦' },
+  { id: 'map', label: 'Mapa', icon: '⌖' },
 ]
 
 const POKEMON_BY_ID = new Map(data.pokemon.map((p) => [p.id, p]))
@@ -91,7 +93,11 @@ function App() {
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </Header>
 
-      {view === 'trainers' ? (
+      {view === 'map' ? (
+        <main>
+          <KantoMap trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
+        </main>
+      ) : view === 'trainers' ? (
         <main>
           <Trainers trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
         </main>

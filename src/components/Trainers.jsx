@@ -1,15 +1,7 @@
 import { useMemo, useState } from 'react'
 import TrainerCard from './TrainerCard'
+import { buildTeam } from '../utils/trainers'
 import '../css/Trainers.css'
-
-// Agrupa os IDs repetidos (ex.: Koga possui três Koffing) e mantém a ordem original
-function buildTeam(pokemonIds, pokemonById) {
-  const counts = new Map()
-  pokemonIds.forEach((id) => counts.set(id, (counts.get(id) ?? 0) + 1))
-  return [...counts.entries()]
-    .filter(([id]) => pokemonById.has(id))
-    .map(([id, count]) => ({ pokemon: pokemonById.get(id), count }))
-}
 
 const ORDERS = [
   { id: 'id', label: 'ordem original' },

@@ -1,0 +1,367 @@
+.kanto {
+  --map-land: #efe2c2;
+  --map-sea: rgba(70, 120, 160, 0.55);
+  --map-route: #8a5a2b;
+}
+
+:root[data-theme='dark'] .kanto {
+  --map-land: #1f2a40;
+  --map-sea: rgba(127, 211, 224, 0.4);
+  --map-route: #ffb38f;
+}
+
+.kanto__intro {
+  margin: 1.75rem 0 1.25rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.kanto__intro span {
+  font-family: var(--font-hand);
+  font-style: normal;
+  font-size: 1.3rem;
+  color: var(--margin);
+}
+
+.kanto__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 1.75rem;
+}
+
+/* folha avulsa presa no caderno */
+.kanto__paper {
+  position: relative;
+  padding: 0.75rem;
+  border: 1px solid var(--card-edge);
+  background: var(--grain) 0 0 / 220px 220px, var(--card);
+  box-shadow: var(--shadow);
+  transform: rotate(-0.5deg);
+}
+
+.kanto__paper::before,
+.kanto__paper::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 90px;
+  height: 22px;
+  background: var(--tape);
+}
+
+.kanto__paper::before {
+  left: 24px;
+  transform: rotate(-6deg);
+}
+
+.kanto__paper::after {
+  right: 24px;
+  transform: rotate(5deg);
+}
+
+.kanto__map {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ---------- terreno ---------- */
+.kanto__land {
+  fill: var(--map-land);
+  animation: fade-in 0.8s ease 0.6s both;
+}
+
+.kanto__hatch {
+  stroke: var(--ink);
+  stroke-width: 0.6;
+  opacity: 0.12;
+}
+
+.kanto__land-hatch {
+  fill: url(#land-hatch);
+  animation: fade-in 0.8s ease 0.8s both;
+}
+
+.kanto__coast {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.6s cubic-bezier(0.5, 0, 0.3, 1) forwards;
+}
+
+.kanto__coast--echo {
+  stroke-width: 0.9;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  opacity: 0.4;
+  transform: translate(3px, 3px);
+  animation: fade-in 0.6s ease 1.4s both;
+}
+
+.kanto__wave {
+  fill: none;
+  stroke: var(--map-sea);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  animation: bob 4s ease-in-out infinite;
+}
+
+.kanto__wave:nth-child(odd) {
+  animation-delay: -2s;
+}
+
+.kanto__tree path {
+  fill: color-mix(in srgb, #4a8a3c 45%, var(--map-land));
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+
+.kanto__tree line,
+.kanto__mountain path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.kanto__mountain path:first-child {
+  fill: color-mix(in srgb, #a87a3c 30%, var(--map-land));
+}
+
+.kanto__mountain-shade {
+  stroke-width: 1 !important;
+  opacity: 0.6;
+}
+
+/* ---------- rotas ---------- */
+.kanto__route {
+  fill: none;
+  stroke: var(--map-route);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.8s ease-out forwards;
+  animation-delay: calc(1.2s + var(--i) * 0.12s);
+}
+
+.kanto__route--sea {
+  stroke: var(--map-sea);
+  stroke-width: 2.4;
+  stroke-dasharray: 7 7;
+  stroke-dashoffset: 0;
+  animation: fade-in 0.6s ease calc(1.2s + var(--i) * 0.12s) both;
+}
+
+/* ---------- cidades e textos ---------- */
+.kanto__city rect {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.kanto__label {
+  font-family: var(--font-hand);
+  font-size: 21px;
+  font-weight: 700;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--map-land);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.kanto__label--feature {
+  font-size: 17px;
+  font-weight: 500;
+  fill: var(--ink-soft);
+}
+
+.kanto__label--sea {
+  font-size: 24px;
+  font-style: italic;
+  fill: var(--map-sea);
+  stroke: none;
+}
+
+.kanto__compass circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+}
+
+.kanto__compass path {
+  fill: var(--margin);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+
+.kanto__compass .kanto__compass-minor {
+  fill: var(--card);
+}
+
+.kanto__compass text {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 800;
+  fill: var(--ink);
+}
+
+/* ---------- alfinetes dos treinadores ---------- */
+.map-pin {
+  cursor: pointer;
+  outline: none;
+}
+
+.map-pin__drop {
+  animation: pin-drop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  animation-delay: calc(2.2s + var(--i) * 0.08s);
+}
+
+.map-pin__body {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transition: transform 0.2s ease;
+}
+
+.map-pin:hover .map-pin__body,
+.map-pin:focus-visible .map-pin__body {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.map-pin__shadow {
+  fill: rgba(0, 0, 0, 0.25);
+}
+
+.map-pin__needle {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.map-pin__frame {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.map-pin--selected .map-pin__frame {
+  stroke: var(--margin);
+  stroke-width: 3.5;
+}
+
+.map-pin:focus-visible .map-pin__frame {
+  stroke-dasharray: 4 3;
+}
+
+.map-pin image {
+  image-rendering: pixelated;
+}
+
+.map-pin__initial {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 800;
+  fill: var(--ink);
+}
+
+.map-pin__head {
+  fill: var(--margin);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.map-pin__pulse {
+  fill: none;
+  stroke: var(--margin);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 1.6s ease-out infinite;
+}
+
+/* ---------- painel lateral ---------- */
+.kanto__aside {
+  position: sticky;
+  top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.kanto__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.kanto__chips .chip {
+  font-size: 0.66rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.kanto__detail {
+  display: grid;
+  gap: 0.6rem;
+  animation: drop-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.kanto__place {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--accent);
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pin-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@media (max-width: 980px) {
+  .kanto__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .kanto__aside {
+    position: static;
+  }
+}
+
+@media (max-width: 520px) {
+  .kanto__paper {
+    padding: 0.3rem;
+    transform: none;
+  }
+}
