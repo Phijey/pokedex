@@ -3,8 +3,9 @@ import TypeStamp from './TypeStamp'
 import StatBar from './StatBar'
 import StatRadar from './StatRadar'
 import NotePad from './NotePad'
+import Scribble from './Scribble'
 import { usePokemonExtra } from '../hooks/usePokemonExtra'
-import { STATS, formatId, totalStats } from '../utils/stats'
+import { STATS, formatId, getExtremes, totalStats } from '../utils/stats'
 import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 import '../css/PokemonDetails.css'
@@ -22,6 +23,7 @@ function PokemonDetails({
 }) {
   const color = getPrimaryColor(pokemon)
   const extra = usePokemonExtra(pokemon.id)
+  const { strongest, weakest } = getExtremes(pokemon)
 
   // Fecha com ESC, navega com as setas e trava a rolagem da página de fundo
   useEffect(() => {
@@ -123,9 +125,24 @@ function PokemonDetails({
           <StatRadar series={[{ stats: pokemon.stats, color, label: pokemon.name }]} />
 
           <div className="journal__stats">
-            {STATS.map((stat) => (
-              <StatBar key={stat.key} label={stat.label} value={pokemon.stats[stat.key]} color={color} />
-            ))}
+            {STATS.map((stat) => {
+              const bar = <StatBar label={stat.label} value={pokemon.stats[stat.key]} color={color} />
+              if (stat.key === strongest) {
+                return (
+                  <Scribble key={stat.key} variant="circle" label="ponto forte!" color="var(--margin)" delay={500}>
+                    {bar}
+                  </Scribble>
+                )
+              }
+              if (stat.key === weakest) {
+                return (
+                  <Scribble key={stat.key} variant="underline" label="ponto fraco" color="var(--accent)" delay={900}>
+                    {bar}
+                  </Scribble>
+                )
+              }
+              return <div key={stat.key}>{bar}</div>
+            })}
           </div>
 
           <p className="journal__total">

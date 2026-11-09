@@ -17,3 +17,14 @@ export function totalStats(pokemon) {
 export function formatId(id) {
   return String(id).padStart(3, '0')
 }
+
+// Atributo mais alto e mais baixo (usados nas marcações à mão do modal)
+export function getExtremes(pokemon) {
+  let strongest = STATS[0].key
+  let weakest = STATS[0].key
+  STATS.forEach(({ key }) => {
+    if (pokemon.stats[key] > pokemon.stats[strongest]) strongest = key
+    if (pokemon.stats[key] < pokemon.stats[weakest]) weakest = key
+  })
+  return { strongest, weakest: weakest === strongest ? null : weakest }
+}
