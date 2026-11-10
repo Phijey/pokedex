@@ -18,7 +18,7 @@ Em vez da clássica Pokédex vermelha, a interface foi pensada como o **caderno 
 - 🔎 **Pesquisa em tempo real** por nome (`bulba`) ou número (`25`, `#025`, `nº 25`).
 - 🧬 **Filtro por tipo** gerado a partir dos tipos presentes nos dados (inclui “Sem tipo”, usado pelo Mew).
 - 📄 **Detalhes em modal** (caderno aberto) com gráfico radar dos atributos, barras, total, treinadores que possuem o Pokémon e navegação anterior/próximo (também pelas setas do teclado; `Esc` fecha).
-- 🧑‍🚀 **Treinadores**: fichas com foto, nome, insígnias, equipe (IDs repetidos são agrupados, ex.: Venonat ×3 do Koga) e média de atributos. Clicar em um Pokémon abre a ficha dele.
+- 🧑‍🚀 **Treinadores**: fichas com foto, nome, insígnias, equipe (IDs repetidos são agrupados, ex.: Venonat ×3 do Koga), busca por treinador ou Pokémon da equipe, filtro por insígnias e média de atributos. Clicar em um Pokémon abre a ficha dele.
 - ⚠️ **Estado vazio** quando nenhum Pokémon corresponde à pesquisa/filtros, com botão para limpar.
 - 📱 **Layout responsivo** para desktop, tablet e smartphone.
 
@@ -32,8 +32,11 @@ Em vez da clássica Pokédex vermelha, a interface foi pensada como o **caderno 
 
 ### Interações do caderno de campo
 - 📖 **Página virando de verdade**: ao navegar com “anterior/próximo” (ou pelas setas do teclado), a folha gira em 3D pela lombada, mostrando na frente a página atual e no verso a seguinte.
+- 🧪 **Reações elementais**: cálculo de fraquezas (`2×`, `4×`), resistências (`½×`, `¼×`) e imunidades (`0×`) a partir dos tipos do espécime.
+- 🔄 **Linha evolutiva interativa**: diagrama com os estágios evolutivos de Kanto no modal; clicar em outra fase da evolução vira a página diretamente para aquele Pokémon.
+- ⚑ **Equipe de expedição**: recrutamento de até 6 Pokémon (salvo no `localStorage`) com perfil médio em gráfico radar, soma de atributos, cobertura de tipos e alerta de vulnerabilidades compartilhadas.
 - 🗺️ **Mapa de Kanto desenhado à mão**: contorno com traço tremido, rotas que se desenham sozinhas, montanhas, floresta e rosa dos ventos. Cada treinador é um alfinete com foto na sua cidade; clicar nele abre a ficha ao lado.
-- ✍️ **Minhas anotações**: um bloco de notas em cada Pokémon, salvo automaticamente no navegador. A nota também aparece como etiqueta na ficha da listagem.
+- ✍️ **Minhas anotações**: um bloco de notas em cada Pokémon, salvo automaticamente no navegador, com filtro rápido “Com notas” na barra principal e etiqueta na ficha da listagem.
 - 🖍️ **Marcações à mão animadas**: no detalhe, o maior atributo é circulado (“ponto forte!”) e o menor é sublinhado (“ponto fraco”), como se fosse feito a caneta.
 - ✏️ **Cursor de lápis**: o cursor vira um lápis e cada clique deixa um rabisco rápido no papel.
 
@@ -88,7 +91,7 @@ A Pokédex funciona completamente com esse arquivo. As fontes externas abaixo s�
 | Recurso | Fonte | Uso |
 | --- | --- | --- |
 | Imagens oficiais | [PokeAPI/sprites](https://github.com/PokeAPI/sprites) — `sprites/pokemon/other/official-artwork/{id}.png` | Fotos dos cards e do modal |
-| Sprites pixelados | [PokeAPI/sprites](https://github.com/PokeAPI/sprites) — `sprites/pokemon/{id}.png` | Treinadores, bandeja de comparação e reserva caso a imagem oficial falhe |
+| Sprites pixelados | [PokeAPI/sprites](https://github.com/PokeAPI/sprites) — `sprites/pokemon/{id}.png` | Treinadores, evolução, bandeja de comparação e reserva caso a imagem oficial falhe |
 | Fotos dos treinadores | [Pokémon Showdown](https://play.pokemonshowdown.com/sprites/trainers/) — `sprites/trainers/{nome}.png` | Foto de cada treinador na seção Treinadores (o Gary usa o sprite `blue`, nome dele nos jogos) |
 | Dados complementares | [PokéAPI](https://pokeapi.co/) — `/api/v2/pokemon/{id}` e `/api/v2/pokemon-species/{id}` | Altura, peso, categoria e descrição no modal |
 
@@ -102,50 +105,56 @@ Se não houver internet, as imagens dos Pokémon são substituídas por uma ilus
 pokedex/
 ├── public/
 │   └── favicon.svg
-├── docs/screenshots/          # imagens usadas neste README
+├── docs/screenshots/             # imagens usadas neste README
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx         # cabeçalho, abas e alternador de tema
-│   │   ├── SearchBar.jsx      # campo de pesquisa
-│   │   ├── TypeFilter.jsx     # filtro por tipo (carimbos)
-│   │   ├── SortSelect.jsx     # ordenação
-│   │   ├── PokemonList.jsx    # grade de fichas (map)
-│   │   ├── PokemonCard.jsx    # ficha de espécime
-│   │   ├── PokemonDetails.jsx # modal de detalhes e folha virando
-│   │   ├── JournalPages.jsx   # páginas esquerda e direita do caderno
-│   │   ├── NotePad.jsx        # minhas anotações
-│   │   ├── Scribble.jsx       # marcações à mão animadas
-│   │   ├── KantoMap.jsx       # mapa de Kanto com os treinadores
-│   │   ├── PencilCursor.jsx   # rabiscos do cursor de lápis
-│   │   ├── StatBar.jsx        # barra de atributo (régua)
-│   │   ├── StatRadar.jsx      # gráfico radar em SVG
-│   │   ├── TypeStamp.jsx      # carimbo de tipo
-│   │   ├── Trainers.jsx       # seção de treinadores
-│   │   ├── TrainerCard.jsx    # ficha de treinador
-│   │   ├── CompareTray.jsx    # bandeja de comparação
-│   │   ├── CompareModal.jsx   # comparação lado a lado
-│   │   ├── ThemeToggle.jsx    # tema claro/escuro
-│   │   └── EmptyState.jsx     # nenhum resultado
-│   ├── css/                   # um arquivo de estilo por área da interface
+│   │   ├── Header.jsx            # cabeçalho, abas e alternador de tema
+│   │   ├── SearchBar.jsx         # campo de pesquisa
+│   │   ├── TypeFilter.jsx        # filtro por tipo (carimbos)
+│   │   ├── SortSelect.jsx        # ordenação
+│   │   ├── PokemonList.jsx       # grade de fichas (map)
+│   │   ├── PokemonCard.jsx       # ficha de espécime
+│   │   ├── PokemonDetails.jsx    # modal de detalhes e folha virando
+│   │   ├── JournalPages.jsx      # páginas esquerda e direita do caderno
+│   │   ├── TypeWeaknesses.jsx    # fraquezas, resistências e imunidades elementais
+│   │   ├── EvolutionChain.jsx    # diagrama interativo de linha evolutiva
+│   │   ├── ExpeditionTeam.jsx    # montagem e análise da equipe de expedição
+│   │   ├── NotePad.jsx           # minhas anotações
+│   │   ├── Scribble.jsx          # marcações à mão animadas
+│   │   ├── KantoMap.jsx          # mapa de Kanto com os treinadores
+│   │   ├── PencilCursor.jsx      # rabiscos do cursor de lápis
+│   │   ├── StatBar.jsx           # barra de atributo (régua)
+│   │   ├── StatRadar.jsx         # gráfico radar em SVG
+│   │   ├── TypeStamp.jsx         # carimbo de tipo
+│   │   ├── Trainers.jsx          # seção de treinadores com busca e filtro
+│   │   ├── TrainerCard.jsx       # ficha de treinador
+│   │   ├── CompareTray.jsx       # bandeja de comparação
+│   │   ├── CompareModal.jsx      # comparação lado a lado
+│   │   ├── ThemeToggle.jsx       # tema claro/escuro
+│   │   └── EmptyState.jsx        # nenhum resultado
+│   ├── css/                      # um arquivo de estilo por área da interface
 │   ├── data/
 │   │   ├── pokedex-data.json
-│   │   └── kantoMap.js        # cidades, rotas e locais dos treinadores
+│   │   ├── evolutions.js         # famílias evolutivas dos 151 Pokémon de Kanto
+│   │   └── kantoMap.js           # cidades, rotas e locais dos treinadores
 │   ├── hooks/
-│   │   ├── useLocalStorage.js # useState persistido
+│   │   ├── useLocalStorage.js    # useState persistido
 │   │   ├── useFavorites.js
-│   │   ├── useNotes.js        # anotações pessoais
+│   │   ├── useNotes.js           # anotações pessoais
+│   │   ├── useTeam.js            # equipe de expedição (até 6 Pokémon)
 │   │   ├── useTheme.js
-│   │   └── usePokemonExtra.js # busca na PokéAPI com useEffect
+│   │   └── usePokemonExtra.js    # busca na PokéAPI com useEffect
 │   ├── utils/
-│   │   ├── filters.js         # pesquisa, filtro e ordenação
-│   │   ├── stats.js           # atributos, total e formatação do número
-│   │   ├── trainerImage.js    # fotos dos treinadores (Pokémon Showdown)
-│   │   ├── trainers.js        # agrupamento da equipe de cada treinador
-│   │   ├── typeColors.js      # cores e nomes em português dos tipos
-│   │   └── pokemonImage.js    # URLs das imagens e fallback
-│   ├── App.jsx                # estado principal e composição da tela
+│   │   ├── filters.js            # pesquisa, filtro e ordenação
+│   │   ├── stats.js              # atributos, total e formatação do número
+│   │   ├── trainerImage.js       # fotos dos treinadores (Pokémon Showdown)
+│   │   ├── trainers.js           # agrupamento da equipe de cada treinador
+│   │   ├── typeColors.js         # cores e nomes em português dos tipos
+│   │   ├── typeEffectiveness.js  # matriz de eficácia elemental defensiva
+│   │   └── pokemonImage.js       # URLs das imagens e fallback
+│   ├── App.jsx                   # estado principal e composição da tela
 │   ├── main.jsx
-│   └── index.css              # variáveis de tema e estilos globais
+│   └── index.css                 # variáveis de tema e estilos globais
 ├── index.html
 ├── package.json
 └── vite.config.js
@@ -154,9 +163,9 @@ pokedex/
 ### Conceitos de React aplicados
 - **Componentes funcionais** e **props** para toda a interface.
 - **`useState`** para pesquisa, filtros, ordenação, seleção, comparação e abas.
-- **`useMemo`** para o estado derivado (lista filtrada e ordenada).
+- **`useMemo`** para o estado derivado (lista filtrada e ordenada, análise da equipe e busca de treinadores).
 - **`useEffect`** para teclado/rolagem do modal, persistência no `localStorage`, tema e chamadas à PokéAPI (com `AbortController`).
-- **Hooks personalizados** (`useLocalStorage`, `useFavorites`, `useTheme`, `usePokemonExtra`).
+- **Hooks personalizados** (`useLocalStorage`, `useFavorites`, `useNotes`, `useTeam`, `useTheme`, `usePokemonExtra`).
 - **Renderização de listas** com `map()` e **eventos** de clique, teclado e formulário.
 
 ---
