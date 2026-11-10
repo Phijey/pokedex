@@ -8,6 +8,7 @@ import PokemonList from './components/PokemonList'
 import PokemonDetails from './components/PokemonDetails'
 import Trainers from './components/Trainers'
 import KantoMap from './components/KantoMap'
+import ExpeditionTeam from './components/ExpeditionTeam'
 import CompareTray from './components/CompareTray'
 import CompareModal from './components/CompareModal'
 import ThemeToggle from './components/ThemeToggle'
@@ -15,14 +16,9 @@ import PencilCursor from './components/PencilCursor'
 import { useFavorites } from './hooks/useFavorites'
 import { useTheme } from './hooks/useTheme'
 import { useNotes } from './hooks/useNotes'
+import { useTeam } from './hooks/useTeam'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
 import './css/App.css'
-
-const TABS = [
-  { id: 'pokedex', label: 'Espécimes', icon: '❦' },
-  { id: 'trainers', label: 'Treinadores', icon: '✦' },
-  { id: 'map', label: 'Mapa', icon: '⌖' },
-]
 
 const POKEMON_BY_ID = new Map(data.pokemon.map((p) => [p.id, p]))
 
@@ -49,6 +45,17 @@ function App() {
   const { favorites, toggleFavorite } = useFavorites()
   const { theme, toggleTheme } = useTheme()
   const { notes, saveNote } = useNotes()
+  const { teamIds, toggleTeam, clearTeam, randomizeTeam } = useTeam()
+
+  const tabs = useMemo(
+    () => [
+      { id: 'pokedex', label: 'Espécimes', icon: '❦' },
+      { id: 'team', label: teamIds.length > 0 ? `Equipe (${teamIds.length})` : 'Equipe', icon: '⚑' },
+      { id: 'trainers', label: 'Treinadores', icon: '✦' },
+      { id: 'map', label: 'Mapa', icon: '⌖' },
+    ],
+    [teamIds.length],
+  )
 
   // Estado derivado: lista filtrada e ordenada a partir dos filtros atuais
   const visible = useMemo(() => {
@@ -89,7 +96,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header tabs={TABS} view={view} onViewChange={setView} total={data.pokemon.length}>
+      <Header tabs={tabs} view={view} onViewChange={setView} total={data.pokemon.length}>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </Header>
 
@@ -100,6 +107,19 @@ function App() {
       ) : view === 'trainers' ? (
         <main>
           <Trainers trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
+        </main>
+      ) : view === 'team' ? (
+        <main>
+          <ExpeditionTeam
+            teamIds={teamIds}
+            pokemonById={POKEMON_BY_ID}
+            allPokemon={data.pokemon}
+            onSelectPokemon={setSelectedId}
+            onRemove={toggleTeam}
+            onClear={clearTeam}
+            onRandomize={randomizeTeam}
+            onExplore={() => setView('pokedex')}
+          />
         </main>
       ) : (
         <main>
@@ -132,6 +152,8 @@ function App() {
             onToggleFavorite={toggleFavorite}
             compareIds={compareIds}
             onToggleCompare={toggleCompare}
+            teamIds={teamIds}
+            onToggleTeam={toggleTeam}
             notes={notes}
             query={query}
             onReset={resetFilters}
