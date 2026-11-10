@@ -1,5 +1,6 @@
 import PokemonCard from './PokemonCard'
 import EmptyState from './EmptyState'
+import { MAX_TEAM_SIZE } from '../hooks/useTeam'
 import '../css/PokemonList.css'
 
 function PokemonList({
@@ -9,6 +10,8 @@ function PokemonList({
   onToggleFavorite,
   compareIds,
   onToggleCompare,
+  teamIds,
+  onToggleTeam,
   notes,
   query,
   onReset,
@@ -16,6 +19,8 @@ function PokemonList({
   if (pokemons.length === 0) {
     return <EmptyState query={query} onReset={onReset} />
   }
+
+  const teamFull = (teamIds?.length ?? 0) >= MAX_TEAM_SIZE
 
   return (
     <section className="specimen-grid">
@@ -28,6 +33,9 @@ function PokemonList({
             onToggleFavorite={onToggleFavorite}
             isComparing={compareIds?.includes(pokemon.id)}
             onToggleCompare={onToggleCompare}
+            isInTeam={teamIds?.includes(pokemon.id)}
+            teamFull={teamFull}
+            onToggleTeam={onToggleTeam}
             note={notes?.[pokemon.id]}
           />
         </div>

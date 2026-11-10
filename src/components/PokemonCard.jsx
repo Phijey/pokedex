@@ -5,7 +5,18 @@ import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 import '../css/PokemonCard.css'
 
-function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isComparing, onToggleCompare, note }) {
+function PokemonCard({
+  pokemon,
+  onSelect,
+  isFavorite,
+  onToggleFavorite,
+  isComparing,
+  onToggleCompare,
+  isInTeam,
+  teamFull,
+  onToggleTeam,
+  note,
+}) {
   const color = getPrimaryColor(pokemon)
 
   function handleFavorite(event) {
@@ -16,6 +27,11 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isCompar
   function handleCompare(event) {
     event.stopPropagation()
     onToggleCompare(pokemon.id)
+  }
+
+  function handleTeam(event) {
+    event.stopPropagation()
+    onToggleTeam(pokemon.id)
   }
 
   function handleKeyDown(event) {
@@ -37,6 +53,23 @@ function PokemonCard({ pokemon, onSelect, isFavorite, onToggleFavorite, isCompar
       <header className="specimen__top">
         <span className="specimen__number">Nº {formatId(pokemon.id)}</span>
         <div className="specimen__actions">
+          {onToggleTeam && (
+            <button
+              type="button"
+              className={`icon-btn ${isInTeam ? 'icon-btn--on' : ''}`}
+              onClick={handleTeam}
+              disabled={!isInTeam && teamFull}
+              title={
+                isInTeam
+                  ? 'Remover da equipe de expedição'
+                  : teamFull
+                    ? 'Equipe de expedição cheia (máx. 6)'
+                    : 'Recrutar para a equipe de expedição'
+              }
+            >
+              ⚑
+            </button>
+          )}
           {onToggleCompare && (
             <button
               type="button"

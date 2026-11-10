@@ -8,6 +8,9 @@ const TURN_DURATION = 850
 function PokemonDetails({
   pokemon,
   owners,
+  pokemonById,
+  onSelectPokemon,
+  onSelectTrainer,
   getOwners,
   onClose,
   onPrev,
@@ -28,6 +31,15 @@ function PokemonDetails({
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!singlePage && !reduced) setTurn({ dir, from: pokemon })
     navigate()
+  }
+
+  function jumpToPokemon(targetId) {
+    if (!onSelectPokemon || targetId === pokemon.id || turn) return
+    const dir = targetId > pokemon.id ? 'next' : 'prev'
+    const singlePage = window.matchMedia('(max-width: 820px)').matches
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!singlePage && !reduced) setTurn({ dir, from: pokemon })
+    onSelectPokemon(targetId)
   }
 
   // Ao fim da animação a folha "pousa" e deixa de existir
@@ -63,6 +75,9 @@ function PokemonDetails({
         key={target.id}
         pokemon={target}
         owners={target.id === pokemon.id ? owners : getOwners(target.id)}
+        pokemonById={pokemonById}
+        onSelectPokemon={interactive ? jumpToPokemon : undefined}
+        onSelectTrainer={interactive ? onSelectTrainer : undefined}
         isFavorite={interactive ? isFavorite : false}
         onToggleFavorite={interactive ? onToggleFavorite : undefined}
       />
