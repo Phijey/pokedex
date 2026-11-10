@@ -631,3 +631,80 @@
   background: var(--margin);
   color: var(--card);
 }
+
+/* ---------- linha evolutiva ---------- */
+.evo-chain {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.evo-chain__stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.evo-chain__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.evo-chain__arrow {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--ink-faint);
+}
+
+.evo-chain__branch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.evo-chain__node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  min-width: 68px;
+  padding: 0.25rem 0.4rem 0.3rem;
+  border: 1px solid var(--card-edge);
+  border-radius: 4px;
+  background: var(--paper);
+  font-size: 0.72rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+button.evo-chain__node:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  border-color: var(--type-color);
+  background: color-mix(in srgb, var(--type-color) 12%, var(--card));
+}
+
+.evo-chain__node--current {
+  border: 1.5px solid var(--type-color);
+  background: color-mix(in srgb, var(--type-color) 16%, var(--card));
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.evo-chain__node img {
+  width: 42px;
+  height: 42px;
+  margin: -4px 0;
+  image-rendering: pixelated;
+}
+
+.evo-chain__id {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--ink-faint);
+}
+
+.evo-chain__name {
+  font-weight: 600;
+  line-height: 1.1;
+}

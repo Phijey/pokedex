@@ -1,5 +1,6 @@
 import TypeStamp from './TypeStamp'
 import TypeWeaknesses from './TypeWeaknesses'
+import EvolutionChain from './EvolutionChain'
 import StatBar from './StatBar'
 import StatRadar from './StatRadar'
 import NotePad from './NotePad'
@@ -9,8 +10,8 @@ import { STATS, formatId, getExtremes, totalStats } from '../utils/stats'
 import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 
-// Página esquerda do caderno: foto, nome, tipos e notas de campo
-export function LeftPage({ pokemon, owners, isFavorite, onToggleFavorite }) {
+// Página esquerda do caderno: foto, nome, tipos, reações, evolução e notas de campo
+export function LeftPage({ pokemon, owners, pokemonById, onSelectPokemon, isFavorite, onToggleFavorite }) {
   const extra = usePokemonExtra(pokemon.id)
 
   return (
@@ -70,6 +71,8 @@ export function LeftPage({ pokemon, owners, isFavorite, onToggleFavorite }) {
       </div>
 
       <TypeWeaknesses types={pokemon.types} />
+
+      <EvolutionChain pokemonId={pokemon.id} pokemonById={pokemonById} onSelectPokemon={onSelectPokemon} />
 
       {owners && owners.length > 0 && (
         <div className="journal__owners">

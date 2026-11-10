@@ -154,6 +154,8 @@ function App() {
         <PokemonDetails
           pokemon={selected}
           owners={owners}
+          pokemonById={POKEMON_BY_ID}
+          onSelectPokemon={setSelectedId}
           onClose={() => setSelectedId(null)}
           onPrev={prev ? () => setSelectedId(prev.id) : null}
           onNext={next ? () => setSelectedId(next.id) : null}
