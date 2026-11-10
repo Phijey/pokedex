@@ -1,4 +1,5 @@
 import TypeStamp from './TypeStamp'
+import TypeWeaknesses from './TypeWeaknesses'
 import StatBar from './StatBar'
 import StatRadar from './StatRadar'
 import NotePad from './NotePad'
@@ -67,6 +68,8 @@ export function LeftPage({ pokemon, owners, isFavorite, onToggleFavorite }) {
           </>
         )}
       </div>
+
+      <TypeWeaknesses types={pokemon.types} />
 
       {owners && owners.length > 0 && (
         <div className="journal__owners">

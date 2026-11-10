@@ -576,3 +576,58 @@
     display: none;
   }
 }
+
+/* ---------- reações elementais (fraquezas e resistências) ---------- */
+.matchups {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.matchups__group {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.matchups__label {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.matchups__label--weak {
+  color: var(--margin);
+}
+
+.matchups__label--resist {
+  color: var(--accent);
+}
+
+.matchups__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.45rem;
+}
+
+.matchups__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.matchups__mult {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.matchups__mult--double {
+  padding: 0.05rem 0.28rem;
+  border-radius: 3px;
+  background: var(--margin);
+  color: var(--card);
+}
