@@ -34,11 +34,13 @@ function getOwners(pokemonId) {
 
 function App() {
   const [view, setView] = useState('pokedex')
+  const [trainerFilter, setTrainerFilter] = useState('')
   const [query, setQuery] = useState('')
   const [selectedType, setSelectedType] = useState('all')
   const [sortBy, setSortBy] = useState('id')
   const [direction, setDirection] = useState('asc')
   const [onlyFavorites, setOnlyFavorites] = useState(false)
+  const [onlyWithNotes, setOnlyWithNotes] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
   const [compareIds, setCompareIds] = useState([])
   const [comparing, setComparing] = useState(false)
@@ -46,6 +48,8 @@ function App() {
   const { theme, toggleTheme } = useTheme()
   const { notes, saveNote } = useNotes()
   const { teamIds, toggleTeam, clearTeam, randomizeTeam } = useTeam()
+
+  const notesCount = Object.keys(notes).length
 
   const tabs = useMemo(
     () => [
@@ -60,10 +64,14 @@ function App() {
   // Estado derivado: lista filtrada e ordenada a partir dos filtros atuais
   const visible = useMemo(() => {
     const filtered = data.pokemon.filter(
-      (p) => matchesQuery(p, query) && matchesType(p, selectedType) && (!onlyFavorites || favorites.includes(p.id)),
+      (p) =>
+        matchesQuery(p, query) &&
+        matchesType(p, selectedType) &&
+        (!onlyFavorites || favorites.includes(p.id)) &&
+        (!onlyWithNotes || Boolean(notes[p.id])),
     )
     return sortPokemons(filtered, sortBy, direction)
-  }, [query, selectedType, onlyFavorites, favorites, sortBy, direction])
+  }, [query, selectedType, onlyFavorites, onlyWithNotes, favorites, notes, sortBy, direction])
 
   const selected = POKEMON_BY_ID.get(selectedId)
   const owners = selected ? getOwners(selected.id) : []
@@ -79,6 +87,7 @@ function App() {
     setQuery('')
     setSelectedType('all')
     setOnlyFavorites(false)
+    setOnlyWithNotes(false)
   }
 
   function openRandom() {
@@ -94,9 +103,20 @@ function App() {
     })
   }
 
+  function handleSelectTrainer(trainerName) {
+    setSelectedId(null)
+    setTrainerFilter(trainerName)
+    setView('trainers')
+  }
+
+  function handleViewChange(nextView) {
+    if (nextView !== 'trainers') setTrainerFilter('')
+    setView(nextView)
+  }
+
   return (
     <div className="app">
-      <Header tabs={tabs} view={view} onViewChange={setView} total={data.pokemon.length}>
+      <Header tabs={tabs} view={view} onViewChange={handleViewChange} total={data.pokemon.length}>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </Header>
 
@@ -106,7 +126,13 @@ function App() {
         </main>
       ) : view === 'trainers' ? (
         <main>
-          <Trainers trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
+          <Trainers
+            key={trainerFilter}
+            trainers={data.trainers}
+            pokemonById={POKEMON_BY_ID}
+            onSelectPokemon={setSelectedId}
+            initialQuery={trainerFilter}
+          />
         </main>
       ) : view === 'team' ? (
         <main>
@@ -134,6 +160,14 @@ function App() {
                 aria-pressed={onlyFavorites}
               >
                 ★ Favoritos {favorites.length > 0 && `(${favorites.length})`}
+              </button>
+              <button
+                type="button"
+                className={`btn ${onlyWithNotes ? 'btn--on' : ''}`}
+                onClick={() => setOnlyWithNotes((value) => !value)}
+                aria-pressed={onlyWithNotes}
+              >
+                ✎ Com notas {notesCount > 0 && `(${notesCount})`}
               </button>
               <button type="button" className="btn" onClick={openRandom}>
                 ⚄ Aleatório
@@ -178,6 +212,7 @@ function App() {
           owners={owners}
           pokemonById={POKEMON_BY_ID}
           onSelectPokemon={setSelectedId}
+          onSelectTrainer={handleSelectTrainer}
           onClose={() => setSelectedId(null)}
           onPrev={prev ? () => setSelectedId(prev.id) : null}
           onNext={next ? () => setSelectedId(next.id) : null}

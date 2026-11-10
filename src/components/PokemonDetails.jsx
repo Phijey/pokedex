@@ -10,6 +10,7 @@ function PokemonDetails({
   owners,
   pokemonById,
   onSelectPokemon,
+  onSelectTrainer,
   getOwners,
   onClose,
   onPrev,
@@ -76,6 +77,7 @@ function PokemonDetails({
         owners={target.id === pokemon.id ? owners : getOwners(target.id)}
         pokemonById={pokemonById}
         onSelectPokemon={interactive ? jumpToPokemon : undefined}
+        onSelectTrainer={interactive ? onSelectTrainer : undefined}
         isFavorite={interactive ? isFavorite : false}
         onToggleFavorite={interactive ? onToggleFavorite : undefined}
       />

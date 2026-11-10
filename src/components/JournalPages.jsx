@@ -11,7 +11,7 @@ import { getPrimaryColor } from '../utils/typeColors'
 import { getArtwork, handleImageError } from '../utils/pokemonImage'
 
 // Página esquerda do caderno: foto, nome, tipos, reações, evolução e notas de campo
-export function LeftPage({ pokemon, owners, pokemonById, onSelectPokemon, isFavorite, onToggleFavorite }) {
+export function LeftPage({ pokemon, owners, pokemonById, onSelectPokemon, onSelectTrainer, isFavorite, onToggleFavorite }) {
   const extra = usePokemonExtra(pokemon.id)
 
   return (
@@ -77,9 +77,21 @@ export function LeftPage({ pokemon, owners, pokemonById, onSelectPokemon, isFavo
       {owners && owners.length > 0 && (
         <div className="journal__owners">
           <span>visto com:</span>
-          {owners.map((trainer) => (
-            <em key={trainer.id}>{trainer.name}</em>
-          ))}
+          {owners.map((trainer) =>
+            onSelectTrainer ? (
+              <button
+                key={trainer.id}
+                type="button"
+                className="journal__owner-btn"
+                onClick={() => onSelectTrainer(trainer.name)}
+                title={`Ver ficha de ${trainer.name}`}
+              >
+                {trainer.name}
+              </button>
+            ) : (
+              <em key={trainer.id}>{trainer.name}</em>
+            ),
+          )}
         </div>
       )}
     </section>
