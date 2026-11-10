@@ -1,5 +1,9 @@
 # 📓 Caderno de Campo — Pokédex com React + Vite
 
+**Integrantes do Grupo:**
+- Pedro José Camilo
+- Cairo Rezende
+
 Pokédex interativa desenvolvida com **React + Vite** para a Atividade 03 da disciplina de Desenvolvimento e Integração de Aplicações Web.
 
 Em vez da clássica Pokédex vermelha, a interface foi pensada como o **caderno de campo de um naturalista**: cada Pokémon é uma *ficha de espécime* com foto presa por fita adesiva, os tipos aparecem como **carimbos**, os atributos são medidos em **réguas graduadas** e o fundo imita **papel envelhecido** com granulação e manchas suaves. No tema escuro, o caderno vira um **laboratório noturno** azul-noite.
