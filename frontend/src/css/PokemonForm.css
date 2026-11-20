@@ -1,0 +1,122 @@
+.pokemon-form {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 1.6rem 1.6rem 1.3rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 6px 6px 0 var(--ink);
+  animation: fade-in 0.25s ease both;
+}
+
+.pokemon-form__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.8rem;
+  border: none;
+  background: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.pokemon-form__close:hover {
+  color: var(--margin);
+}
+
+.pokemon-form__title {
+  margin: 0 0 1.1rem;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+
+.pokemon-form__field {
+  display: grid;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pokemon-form__field input {
+  padding: 0.5rem 0.65rem;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.pokemon-form__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0;
+  padding: 0;
+  border: none;
+}
+
+.pokemon-form__types legend {
+  margin-bottom: 0.4rem;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pokemon-form__types small {
+  text-transform: none;
+  color: var(--ink-faint);
+}
+
+.pokemon-form__type {
+  padding: 0.25rem 0.7rem;
+  border: 1.5px solid var(--type-color);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--type-color);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.pokemon-form__type.is-on {
+  background: var(--type-color);
+  color: #fff;
+}
+
+.pokemon-form__type:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pokemon-form__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.pokemon-form__error {
+  margin: 1rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--margin);
+}
+
+.pokemon-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1.3rem;
+}
+
+@media (max-width: 520px) {
+  .pokemon-form__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

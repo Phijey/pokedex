@@ -19,6 +19,8 @@ function PokemonDetails({
   onToggleFavorite,
   notes,
   onSaveNote,
+  onEdit,
+  onDelete,
 }) {
   // turn = { dir: 'next' | 'prev', from: pokemon anterior } enquanto a folha está virando
   const [turn, setTurn] = useState(null)
@@ -110,6 +112,21 @@ function PokemonDetails({
         <button type="button" className="journal__close" onClick={onClose} aria-label="Fechar">
           ×
         </button>
+
+        {(onEdit || onDelete) && (
+          <div className="journal__actions">
+            {onEdit && (
+              <button type="button" className="journal__action" onClick={onEdit}>
+                ✎ Editar
+              </button>
+            )}
+            {onDelete && (
+              <button type="button" className="journal__action journal__action--danger" onClick={onDelete}>
+                🗑 Excluir
+              </button>
+            )}
+          </div>
+        )}
 
         {renderLeft(leftPokemon, leftPokemon.id === pokemon.id)}
         {renderRight(rightPokemon, rightPokemon.id === pokemon.id)}
