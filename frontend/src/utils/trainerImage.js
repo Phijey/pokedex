@@ -1,6 +1,6 @@
 const TRAINER_SPRITES = 'https://play.pokemonshowdown.com/sprites/trainers'
 
-// Nome do treinador no pokedex-data.json -> arquivo do sprite no Pokémon Showdown
+// Nome do treinador na API -> arquivo do sprite no Pokémon Showdown
 const SPRITE_FILES = {
   Ash: 'ash',
   Brock: 'brock',
