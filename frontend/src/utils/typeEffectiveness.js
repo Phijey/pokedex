@@ -1,4 +1,4 @@
-// Matriz de eficácia defensiva para os 17 tipos elementais do pokedex-data.json.
+// Matriz de eficácia defensiva para os 17 tipos elementais dos dados da API.
 // Para cada tipo defensor, lista os tipos atacantes que causam dano dobrado (weak),
 // reduzido pela metade (resist) ou nulo (immune).
 const DEFENSE_CHART = {

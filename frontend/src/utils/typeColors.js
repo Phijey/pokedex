@@ -1,4 +1,4 @@
-// Cores e rótulos em português para cada tipo presente no pokedex-data.json
+// Cores e rótulos em português para cada tipo presente nos dados da API
 export const TYPE_INFO = {
   Typeless: { label: 'Sem tipo', color: '#8a857a' },
   Normal: { label: 'Normal', color: '#9a8f7a' },

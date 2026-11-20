@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import data from './data/pokedex-data.json'
+import { usePokedexData } from './hooks/usePokedexData'
+import ApiStatus from './components/ApiStatus'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
@@ -20,19 +21,23 @@ import { useTeam } from './hooks/useTeam'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
 import './css/App.css'
 
-const POKEMON_BY_ID = new Map(data.pokemon.map((p) => [p.id, p]))
+function PokedexApp({ data }) {
+  const pokemonById = useMemo(() => new Map(data.pokemon.map((p) => [p.id, p])), [data.pokemon])
 
-// Apenas os tipos que aparecem em pelo menos um Pokémon
-const AVAILABLE_TYPES = data.types.filter((type) =>
-  data.pokemon.some((p) => (type.name === 'Typeless' ? p.types.length === 0 : p.types.some((t) => t.id === type.id))),
-)
+  // Apenas os tipos que aparecem em pelo menos um Pokémon
+  const availableTypes = useMemo(
+    () =>
+      data.types.filter((type) =>
+        data.pokemon.some((p) => (type.name === 'Typeless' ? p.types.length === 0 : p.types.some((t) => t.id === type.id))),
+      ),
+    [data.types, data.pokemon],
+  )
 
-// Treinadores que possuem determinado Pokémon
-function getOwners(pokemonId) {
-  return data.trainers.filter((t) => t.pokemonIds.includes(pokemonId))
-}
+  // Treinadores que possuem determinado Pokémon
+  function getOwners(pokemonId) {
+    return data.trainers.filter((t) => t.pokemonIds.includes(pokemonId))
+  }
 
-function App() {
   const [view, setView] = useState('pokedex')
   const [trainerFilter, setTrainerFilter] = useState('')
   const [query, setQuery] = useState('')
@@ -73,9 +78,9 @@ function App() {
     return sortPokemons(filtered, sortBy, direction)
   }, [query, selectedType, onlyFavorites, onlyWithNotes, favorites, notes, sortBy, direction])
 
-  const selected = POKEMON_BY_ID.get(selectedId)
+  const selected = pokemonById.get(selectedId)
   const owners = selected ? getOwners(selected.id) : []
-  const comparePokemons = compareIds.map((id) => POKEMON_BY_ID.get(id))
+  const comparePokemons = compareIds.map((id) => pokemonById.get(id))
 
   // Navegação anterior/próximo dentro da lista atualmente exibida
   const navList = visible.some((p) => p.id === selectedId) ? visible : data.pokemon
@@ -122,14 +127,14 @@ function App() {
 
       {view === 'map' ? (
         <main>
-          <KantoMap trainers={data.trainers} pokemonById={POKEMON_BY_ID} onSelectPokemon={setSelectedId} />
+          <KantoMap trainers={data.trainers} pokemonById={pokemonById} onSelectPokemon={setSelectedId} />
         </main>
       ) : view === 'trainers' ? (
         <main>
           <Trainers
             key={trainerFilter}
             trainers={data.trainers}
-            pokemonById={POKEMON_BY_ID}
+            pokemonById={pokemonById}
             onSelectPokemon={setSelectedId}
             initialQuery={trainerFilter}
           />
@@ -138,7 +143,7 @@ function App() {
         <main>
           <ExpeditionTeam
             teamIds={teamIds}
-            pokemonById={POKEMON_BY_ID}
+            pokemonById={pokemonById}
             allPokemon={data.pokemon}
             onSelectPokemon={setSelectedId}
             onRemove={toggleTeam}
@@ -174,7 +179,7 @@ function App() {
               </button>
             </div>
           </div>
-          <TypeFilter types={AVAILABLE_TYPES} selected={selectedType} onSelect={setSelectedType} />
+          <TypeFilter types={availableTypes} selected={selectedType} onSelect={setSelectedType} />
 
           <p className="result-count">
             Exibindo <strong>{visible.length}</strong> de {data.pokemon.length} espécimes
@@ -210,7 +215,7 @@ function App() {
         <PokemonDetails
           pokemon={selected}
           owners={owners}
-          pokemonById={POKEMON_BY_ID}
+          pokemonById={pokemonById}
           onSelectPokemon={setSelectedId}
           onSelectTrainer={handleSelectTrainer}
           onClose={() => setSelectedId(null)}
@@ -227,6 +232,20 @@ function App() {
       <PencilCursor />
     </div>
   )
+}
+
+function App() {
+  const { data, status, error, reload } = usePokedexData()
+
+  if (status !== 'ready' || !data) {
+    return (
+      <div className="app">
+        <ApiStatus status={status} error={error} onRetry={reload} />
+      </div>
+    )
+  }
+
+  return <PokedexApp data={data} />
 }
 
 export default App
