@@ -722,3 +722,36 @@ button.evo-chain__node:hover {
   transform: translateY(-1px);
   color: var(--margin);
 }
+
+/* ações de edição/exclusão ao lado do botão de fechar */
+.journal__actions {
+  position: absolute;
+  top: 0.75rem;
+  right: 3.2rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.journal__action {
+  padding: 0.2rem 0.6rem;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: var(--radius);
+  background: var(--card);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.journal__action:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.journal__action--danger:hover {
+  color: var(--margin);
+  border-color: var(--margin);
+}

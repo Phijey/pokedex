@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { usePokedexData } from './hooks/usePokedexData'
 import ApiStatus from './components/ApiStatus'
+import PokemonForm from './components/PokemonForm'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import TypeFilter from './components/TypeFilter'
@@ -21,7 +22,7 @@ import { useTeam } from './hooks/useTeam'
 import { matchesQuery, matchesType, sortPokemons } from './utils/filters'
 import './css/App.css'
 
-function PokedexApp({ data }) {
+function PokedexApp({ data, onCreate, onUpdate, onDelete }) {
   const pokemonById = useMemo(() => new Map(data.pokemon.map((p) => [p.id, p])), [data.pokemon])
 
   // Apenas os tipos que aparecem em pelo menos um Pokémon
@@ -47,6 +48,8 @@ function PokedexApp({ data }) {
   const [onlyFavorites, setOnlyFavorites] = useState(false)
   const [onlyWithNotes, setOnlyWithNotes] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
+  // null = formulário fechado; { pokemon: null } = novo cadastro; { pokemon } = edição
+  const [form, setForm] = useState(null)
   const [compareIds, setCompareIds] = useState([])
   const [comparing, setComparing] = useState(false)
   const { favorites, toggleFavorite } = useFavorites()
@@ -87,6 +90,32 @@ function PokedexApp({ data }) {
   const position = navList.findIndex((p) => p.id === selectedId)
   const prev = position > 0 ? navList[position - 1] : null
   const next = position >= 0 && position < navList.length - 1 ? navList[position + 1] : null
+
+  async function handleSubmitForm(payload) {
+    if (form.pokemon) {
+      await onUpdate(form.pokemon.id, payload)
+    } else {
+      const created = await onCreate(payload)
+      setSelectedId(created.id)
+    }
+    setForm(null)
+  }
+
+  async function handleDelete() {
+    if (!selected) return
+    if (!window.confirm(`Excluir ${selected.name} (nº ${selected.id}) do caderno? Esta ação não pode ser desfeita.`)) return
+    try {
+      await onDelete(selected.id)
+    } catch (err) {
+      window.alert(err.message)
+      return
+    }
+    // remove o espécime excluído das listas locais (favoritos e equipe)
+    if (favorites.includes(selected.id)) toggleFavorite(selected.id)
+    if (teamIds.includes(selected.id)) toggleTeam(selected.id)
+    setCompareIds((current) => current.filter((id) => id !== selected.id))
+    setSelectedId(null)
+  }
 
   function resetFilters() {
     setQuery('')
@@ -174,6 +203,9 @@ function PokedexApp({ data }) {
               >
                 ✎ Com notas {notesCount > 0 && `(${notesCount})`}
               </button>
+              <button type="button" className="btn" onClick={() => setForm({ pokemon: null })}>
+                ＋ Novo espécime
+              </button>
               <button type="button" className="btn" onClick={openRandom}>
                 ⚄ Aleatório
               </button>
@@ -226,7 +258,13 @@ function PokedexApp({ data }) {
           getOwners={getOwners}
           notes={notes}
           onSaveNote={saveNote}
+          onEdit={() => setForm({ pokemon: selected })}
+          onDelete={handleDelete}
         />
+      )}
+
+      {form && (
+        <PokemonForm pokemon={form.pokemon} types={data.types} onSubmit={handleSubmitForm} onClose={() => setForm(null)} />
       )}
 
       <PencilCursor />
@@ -235,7 +273,7 @@ function PokedexApp({ data }) {
 }
 
 function App() {
-  const { data, status, error, reload } = usePokedexData()
+  const { data, status, error, reload, addPokemon, editPokemon, removePokemon } = usePokedexData()
 
   if (status !== 'ready' || !data) {
     return (
@@ -245,7 +283,7 @@ function App() {
     )
   }
 
-  return <PokedexApp data={data} />
+  return <PokedexApp data={data} onCreate={addPokemon} onUpdate={editPokemon} onDelete={removePokemon} />
 }
 
 export default App

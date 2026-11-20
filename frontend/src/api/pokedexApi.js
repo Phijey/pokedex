@@ -31,3 +31,8 @@ async function request(path, options) {
 export const getPokemons = () => request('/pokemons')
 export const getTypes = () => request('/types')
 export const getTrainers = () => request('/trainers')
+
+export const createPokemon = (pokemon) => request('/pokemons', { method: 'POST', body: JSON.stringify(pokemon) })
+export const updatePokemon = (id, pokemon) =>
+  request(`/pokemons/${id}`, { method: 'PUT', body: JSON.stringify(pokemon) })
+export const deletePokemon = (id) => request(`/pokemons/${id}`, { method: 'DELETE' })
